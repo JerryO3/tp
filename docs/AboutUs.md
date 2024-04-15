@@ -34,7 +34,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/jerryo3)]
 
 * Role: Developer
-* Responsibilities: Filter Command
+* Responsibilities: Filter Command, Day
 
 ### Newton Koh
 

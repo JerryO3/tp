@@ -1019,7 +1019,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test Case: `sort birthday`<br>
        Expected: Person list now shows the filtered list of persons sorted based on upcoming birthdays, with those 
-       next birthday is closest to today appearing first. 
+       whose next birthday is closest to today appearing first. 
        Status message shows that the sort command has been executed.
 
 3. Sort clear while a sorted list is shown
@@ -1047,7 +1047,8 @@ testers are expected to do more *exploratory* testing.
        phone number (not an 8-digit number starting with 8 or 9).
 
     2. Test Case: `pay 1`<br>
-       Expected: Error details shown in the status message. Status bar remains the same.
+       Expected: PayNow QR window does not appear. Error details shown in the status message. 
+       Status bar remains the same.
 
 ### Lending an amount to a person
 

@@ -241,7 +241,8 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Filter feature
 
-#### Introduction 
+#### Introduction
+
 FriendFolio can filter contacts by tags, days available (in a week) and by name using FilterCommand.
 FilterCommand can also specify whether the filter is any-match or all-match with respect to the keywords using
 the `--all` flag (it is by default any-match).
@@ -254,15 +255,16 @@ for example:
 Any text after `--all` is not parsed, but will produce the same result as the above command instead of throwing an error.
 
 #### Implementation
+
 To reduce code duplication, the abstract FilterCommand extracts identical methods of 3 commands
 (FilterNameCommand, FilterTagCommand, FilterDayCommand). Each command now inherits `execute` from FilterCommand,
 and has their own error message and command specific information. The filter feature is implemented as follows:
 
 1. The `filter` command syntax is parsed by FilterCommandParser, where the type of filter
-(e.g. by tags, days available (in a week) or name) and the `--all` flag are parsed to create the respective 
-Predicates.
+   (e.g. by tags, days available (in a week) or name) and the `--all` flag are parsed to create the respective
+   Predicates.
 2. The created Predicates are used to instantiate their respective FilterCommands which inherit `execute`
-from the abstract FilterCommand class.
+   from the abstract FilterCommand class.
 3. The common `execute` function modifies the `ObservableList<Person>` in the `Model` component to show the newly-filtered list.
 
 The sequence diagram below shows how the components interact with each other when the user enters the command `filter tag friend`.
@@ -271,16 +273,18 @@ The sequence diagram below shows how the components interact with each other whe
 
 #### FriendFolio Predicates
 
-Predicates in FriendFolio take in both a list of keywords to match, and a boolean to handle the all-match condition. 
+Predicates in FriendFolio take in both a list of keywords to match, and a boolean to handle the all-match condition.
 There are currently 3 predicates: `NameContainsKeyWordPredicate`, `PersonAvailableOnDayPredicate`, `PersonHasTagPredicate`.
 
 #### Alternatives Considered
-1. Single FilterCommand Class: Initially considered using a single FilterCommand class to handle every specified filter 
-type (day, name, tag). This approach was discarded because it is less extensible and OOP.
-2. FilterCommand as an Interface: This approach was discarded because of near-identical method logic across 
-FilterNameCommand, FilterTagCommand and FilterDayCommand which meant significant code-duplication.
+
+1. Single FilterCommand Class: Initially considered using a single FilterCommand class to handle every specified filter
+   type (day, name, tag). This approach was discarded because it is less extensible and OOP.
+2. FilterCommand as an Interface: This approach was discarded because of near-identical method logic across
+   FilterNameCommand, FilterTagCommand and FilterDayCommand which meant significant code-duplication.
 
 #### UML Diagram
+
 Refer to the below class diagram to visualize the relationships between FilterCommand, commands inheriting from FilterCommand
 and predicates.
 
@@ -365,9 +369,9 @@ indexes, the total amount is evenly divided among the user and the two specified
 #### Alternatives Considered
 
 1. Implementing unequal splits of money owed among contacts. However, this approach would necessitate manual
-calculations and the input of specific values for each contact, thereby undermining the primary advantage of the
-split command — to simplify and automate the distribution process. For scenarios requiring specific, manually
-determined amounts, users can utilize the `lend` command, which is designed for financial entry for a single contact.
+   calculations and the input of specific values for each contact, thereby undermining the primary advantage of the
+   split command — to simplify and automate the distribution process. For scenarios requiring specific, manually
+   determined amounts, users can utilize the `lend` command, which is designed for financial entry for a single contact.
 
 ### PayNow
 
@@ -867,48 +871,48 @@ ___
 
 1. **Making Phone Number and Email Address Unique**
 
-    The current FriendFolio system uses a contact's name as a unique identifier. We are planning to enhance this by
-    switching to using contact's phone number and email as unique identifiers. This change will prevent multiple
-    individuals from sharing the same email or phone number within the system, while allowing the existence of multiple
-    individuals with the same name.
+   The current FriendFolio system uses a contact's name as a unique identifier. We are planning to enhance this by
+   switching to using contact's phone number and email as unique identifiers. This change will prevent multiple
+   individuals from sharing the same email or phone number within the system, while allowing the existence of multiple
+   individuals with the same name.
 
 2. **Improved responsiveness of GUI for long text**
 
-    We are aware that excessively long text, like long names, addresses, and remarks etc. might not display fully in
-    a smaller window. While you are able to make the window larger to display more text, we plan to work on
-    improving the responsiveness of our user interface to handle longer inputs.
+   We are aware that excessively long text, like long names, addresses, and remarks etc. might not display fully in
+   a smaller window. While you are able to make the window larger to display more text, we plan to work on
+   improving the responsiveness of our user interface to handle longer inputs.
 
-    ![Planned Enhancement 2](images/plannedEnhancement2.jpeg)
+   ![Planned Enhancement 2](images/plannedEnhancement2.jpeg)
 
 3. **Improved responsiveness of GUI for different screen sizes**
 
-    We are aware that some UI components like the display card, overlap with other components when the screen
-    size is reduced. We plan to enhance the responsiveness of our application to ensure it dynamically adapts and
-    supports various display sizes seamlessly in the future.
+   We are aware that some UI components like the display card, overlap with other components when the screen
+   size is reduced. We plan to enhance the responsiveness of our application to ensure it dynamically adapts and
+   supports various display sizes seamlessly in the future.
 
-    ![Planned Enhancement 3](images/plannedEnhancement3.jpeg)
+   ![Planned Enhancement 3](images/plannedEnhancement3.jpeg)
 
 4. **Maintain information of GUI for different screen sizes**
 
-    We are aware that when the screen size is reduced, some information from the contact details card may get cut off.
-    We plan to address this issue by enhancing the responsiveness of our interface in future updates, ensuring that
-    all information remains visible and accessible on smaller screens.
+   We are aware that when the screen size is reduced, some information from the contact details card may get cut off.
+   We plan to address this issue by enhancing the responsiveness of our interface in future updates, ensuring that
+   all information remains visible and accessible on smaller screens.
 
-    ![Planned Enhancement 4](images/plannedEnhancement4.jpeg)
+   ![Planned Enhancement 4](images/plannedEnhancement4.jpeg)
 
 5. **Improve messages to user**
 
-    We are aware that some of our error and success messages could be more informative for our users.
-    For example, the current success message for edit and add command does not display information
-    on birthday, money owed and days available. We plan to enhance these messages to provide more
-    specific information, ensuring a better user experience.
+   We are aware that some of our error and success messages could be more informative for our users.
+   For example, the current success message for edit and add command does not display information
+   on birthday, money owed and days available. We plan to enhance these messages to provide more
+   specific information, ensuring a better user experience.
 
 6. **Use of symbols in names**
 
-    Our application currently supports only alphanumeric characters in names and restricts the use of symbols
-    such as `/`. However, we recognize that in many cultures, names might include components like `s/o` (son of).
-    To better accommodate these conventions, we are considering expanding our character allowance to include
-    certain symbols in future enhancements.
+   Our application currently supports only alphanumeric characters in names and restricts the use of symbols
+   such as `/`. However, we recognize that in many cultures, names might include components like `s/o` (son of).
+   To better accommodate these conventions, we are considering expanding our character allowance to include
+   certain symbols in future enhancements.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -1054,31 +1058,31 @@ testers are expected to do more *exploratory* testing.
 
 1. Lending money to a person when all persons are being shown
 
-   1. Prerequisites: List all persons using the `list` command. At least one person in the list with first contact
-having $0 for money owed.
-   
-   1. Test case: `lend 1 $/50`<br>
-      Expected: First contact in the list now owes you $50 more.
-   
-   1. Test case: `lend x $/50` (where x is larger than list size)<br>
-      Expected: Amount owed of all contacts remain the same, error details show that index is invalid.
-   
-   1. Test case: `lend 1 $/100001`<br>
-      Expected: Amount owed of first contact remains the same, error details shown in status message.
+    1. Prerequisites: List all persons using the `list` command. At least one person in the list with first contact
+       having $0 for money owed.
+
+    1. Test case: `lend 1 $/50`<br>
+       Expected: First contact in the list now owes you $50 more.
+
+    1. Test case: `lend x $/50` (where x is larger than list size)<br>
+       Expected: Amount owed of all contacts remain the same, error details show that index is invalid.
+
+    1. Test case: `lend 1 $/100001`<br>
+       Expected: Amount owed of first contact remains the same, error details shown in status message.
 
 ### Splitting an amount between user and a group
 
 1. Splitting an amount between user and a group when all persons are being shown
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list with first and second
-contact having $0 for money owed.
+       contact having $0 for money owed.
 
     1. Test case: `split 1 2 $/30`<br>
        Expected: First and second contact in the list now owe you $10 more.
-   
+
     1. Test case: `split 1 2 $/-30`<br>
        Expected: Amount owed of first and second contacts remain the same, error details shown in status message.
-   
+
     1. Test case: `split 1 2 $/100001`<br>
        Expected: Amount owed of first and second contacts remain the same, error details shown in status message.
 
@@ -1090,10 +1094,10 @@ contact having $0 for money owed.
 
     1. Test case: `remark 1 r/He likes to swim`<br>
        Expected: First contact now has remark `He likes to swim`.
-   
+
     1. Test case: `remark 1 r/`<br>
        Expected: First contact now has empty remark.
-   
+
     1. Test case: `remark x r/She likes to jog` (where x is larger than list size)<br>
        Expected: Remark of all contacts remain the same, error details shown in status message.
 

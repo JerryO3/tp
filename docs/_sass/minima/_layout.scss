@@ -24,7 +24,7 @@
 
   &,
   &:visited {
-    color: $brand-color-dark;
+    color: white;
   }
 }
 
@@ -74,7 +74,7 @@
   }
 
   .page-link {
-    color: $text-color;
+    color: white;
     line-height: $base-line-height;
     display: block;
     padding: 5px 10px;
@@ -85,6 +85,7 @@
     }
     margin-left: 20px;
   }
+
 
   @media screen and (min-width: $on-medium) {
     position: static;
@@ -176,8 +177,8 @@
 .post-content {
   margin-bottom: $spacing-unit;
 
-  h1, h2, h3 { margin-top: $spacing-unit * 2 }
-  h4, h5, h6 { margin-top: $spacing-unit }
+  h1, h2, h3 { margin-top: $spacing-unit }
+  h4, h5, h6 { margin-top: $spacing-unit / 2 }
 
   h2 {
     @include relative-font-size(1.75);

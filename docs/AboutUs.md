@@ -14,37 +14,33 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/zhekaiii.png" width="200px">
 
 [[github](https://github.com/zhekaiii)]
-[[portfolio](team/zhekaiii.md)]
 
 * Role: Developer
-* Responsibilities: Code Reviews & Backend
+* Responsibilities: Birthday, Pay Command, Sort Command
 
 ### Alvin Ng
 
 <img src="images/alvinnzz.png" width="200px">
 
 [[github](http://github.com/alvinnzz)]
-[[portfolio](team/alvinnzz.md)]
 
 * Role: Developer
-* Responsibilities: Integration
+* Responsibilities: Money Owed, Split Command, Lend Command
 
 ### Oon Jie Rui
 
 <img src="images/jerryo3.png" width="200px">
 
 [[github](https://github.com/jerryo3)]
-[[portfolio](team/jerryo3.md)]
 
 * Role: Developer
-* Responsibilities: Documentation
+* Responsibilities: Filter Command
 
 ### Newton Koh
 
 <img src="images/newtonkoh.png" width="200px">
 
 [[github](http://github.com/newtonkoh)]
-[[portfolio](team/newtonkoh.md)]
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: UI, Remark Command

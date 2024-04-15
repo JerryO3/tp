@@ -957,6 +957,53 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Lending an amount to a person
+
+1. Lending money to a person when all persons are being shown
+
+   1. Prerequisites: List all persons using the `list` command. At least one person in the list with first contact
+having $0 for money owed.
+   
+   1. Test case: `lend 1 $/50`<br>
+      Expected: First contact in the list now owes you $50 more.
+   
+   1. Test case: `lend x $/50` (where x is larger than list size)<br>
+      Expected: Amount owed of all contacts remain the same, error details show that index is invalid.
+   
+   1. Test case: `lend 1 $/100001`<br>
+      Expected: Amount owed of first contact remains the same, error details shown in status message.
+
+### Splitting an amount between user and a group
+
+1. Splitting an amount between user and a group when all persons are being shown
+
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list with first and second
+contact having $0 for money owed.
+
+    1. Test case: `split 1 2 $/30`<br>
+       Expected: First and second contact in the list now owe you $10 more.
+   
+    1. Test case: `split 1 2 $/-30`<br>
+       Expected: Amount owed of first and second contacts remain the same, error details shown in status message.
+   
+    1. Test case: `split 1 2 $/100001`<br>
+       Expected: Amount owed of first and second contacts remain the same, error details shown in status message.
+
+### Adding remarks to a person
+
+1. Adding remark to a person when all persons are being shown
+
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+    1. Test case: `remark 1 r/He likes to swim`<br>
+       Expected: First contact now has remark `He likes to swim`.
+   
+    1. Test case: `remark 1 r/`<br>
+       Expected: First contact now has empty remark.
+   
+    1. Test case: `remark x r/She likes to jog` (where x is larger than list size)<br>
+       Expected: Remark of all contacts remain the same, error details shown in status message.
+
 ### Saving data
 
 1. Dealing with missing/corrupted data files

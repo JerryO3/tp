@@ -30,7 +30,8 @@ title: Developer Guide
     * [Use Cases](#use-cases)
     * [Non-Functional Requirements](#non-functional-requirements)
     * [Glossary](#glossary)
-7. [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
+7. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
+8. [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -199,7 +200,7 @@ The `Model` component,
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores a separate _sorted_ list of `Person` objects (e.g., results of a sort query) which is then used to construct
   the filtered list below
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which
+* stores the currently 'selected' `Person` objects (e.g., results of a filter query) as a separate _filtered_ list which
   is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to
   this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as
@@ -240,8 +241,9 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Filter feature
 
-FriendFolio can filter contacts by tags, days available (in a week) and by name.
-Filter commands can also specify whether the filter is any-match or all-match with respect to the keywords using
+#### Introduction 
+FriendFolio can filter contacts by tags, days available (in a week) and by name using FilterCommand.
+FilterCommand can also specify whether the filter is any-match or all-match with respect to the keywords using
 the `--all` flag (it is by default any-match).
 
 Note that the `--all` flag is implemented using ArgumentMultimap, and it must be placed at the end of the command,
@@ -251,17 +253,38 @@ for example:
 
 Any text after `--all` is not parsed, but will produce the same result as the above command instead of throwing an error.
 
-To reduce code duplication, an abstract Filter class extracts identical methods of all 3 commands. Each command now inherits
-from Filter, and has their own error messages and command specific information. They also set the predicate to the
-appropriate type on initialization using the setPredicate function provided in Filter.
+#### Implementation
+To reduce code duplication, the abstract FilterCommand extracts identical methods of 3 commands
+(FilterNameCommand, FilterTagCommand, FilterDayCommand). Each command now inherits `execute` from FilterCommand,
+and has their own error message and command specific information. The filter feature is implemented as follows:
 
-Refer to the below class diagram to visualize the relationships between Filter, inheriting filter commands and predicates.
+1. The `filter` command syntax is parsed by FilterCommandParser, where the type of filter
+(e.g. by tags, days available (in a week) or name) and the `--all` flag are parsed to create the respective 
+Predicates.
+2. The created Predicates are used to instantiate their respective FilterCommands which inherit `execute`
+from the abstract FilterCommand class.
+3. The common `execute` function modifies the `ObservableList<Person>` in the `Model` component to show the newly-filtered list.
+
+The sequence diagram below shows how the components interact with each other when the user enters the command `filter tag friend`.
+
+<img src="images/FilterTagSequenceDiagram.png" width="550" />
+
+#### FriendFolio Predicates
+
+Predicates in FriendFolio take in both a list of keywords to match, and a boolean to handle the all-match condition. 
+There are currently 3 predicates: `NameContainsKeyWordPredicate`, `PersonAvailableOnDayPredicate`, `PersonHasTagPredicate`.
+
+#### Alternatives Considered
+1. Single FilterCommand Class: Initially considered using a single FilterCommand class to handle every specified filter 
+type (day, name, tag). This approach was discarded because it is less extensible and OOP.
+2. FilterCommand as an Interface: This approach was discarded because of near-identical method logic across 
+FilterNameCommand, FilterTagCommand and FilterDayCommand which meant significant code-duplication.
+
+#### UML Diagram
+Refer to the below class diagram to visualize the relationships between FilterCommand, commands inheriting from FilterCommand
+and predicates.
 
 <img src="images/FilterClassDiagram.png" width="550" />
-
-### FriendFolio Predicates
-
-Predicates in FriendFolio take in both a list of keywords to match, and a boolean to handle the all-match condition.
 
 ### Remark Command
 
@@ -336,6 +359,16 @@ The following activity diagram sums up the workflow of what happens when the use
 
 <img src="images/SplitActivityDiagram.png" width="500"/>
 
+This implementation considers the user as an active participant in the split. For example, when the user enters two
+indexes, the total amount is evenly divided among the user and the two specified individuals.
+
+#### Alternatives Considered
+
+1. Implementing unequal splits of money owed among contacts. However, this approach would necessitate manual
+calculations and the input of specific values for each contact, thereby undermining the primary advantage of the
+split command — to simplify and automate the distribution process. For scenarios requiring specific, manually
+determined amounts, users can utilize the `lend` command, which is designed for financial entry for a single contact.
+
 ### PayNow
 
 PayNow QR codes are basically encoded string, further encoded into a QR code. The string follow a specific format and
@@ -372,7 +405,7 @@ For example: `sort name`
 
 We use a [`SortedList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/transformation/SortedList.html) to facilitate dynamic sorting by allowing the updating of a `Comparator`. This enables users to toggle between various sorting methods seamlessly.
 
-This `SortedList` is then used in the constructor of a [`FilteredList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/transformation/FilteredList.html) which is used in the [implementation of the filter command](#filter-feature).
+This `SortedList` is then used in the constructor of a [`FilteredList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/transformation/FilteredList.html) which is used in the [implementation of the filter feature](#filter-feature).
 
 The `FilteredList` is then used by the UI to display the contacts in the specified order and filters because any changes in the ordering of the contacts from the `SortedList` will be propagated to the `FilteredList`, which will then reflect in the GUI.
 
@@ -827,6 +860,55 @@ ___
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+1. **Making Phone Number and Email Address Unique**
+
+    The current FriendFolio system uses a contact's name as a unique identifier. We are planning to enhance this by
+    switching to using contact's phone number and email as unique identifiers. This change will prevent multiple
+    individuals from sharing the same email or phone number within the system, while allowing the existence of multiple
+    individuals with the same name.
+
+2. **Improved responsiveness of GUI for long text**
+
+    We are aware that excessively long text, like long names, addresses, and remarks etc. might not display fully in
+    a smaller window. While you are able to make the window larger to display more text, we plan to work on
+    improving the responsiveness of our user interface to handle longer inputs.
+
+    ![Planned Enhancement 2](images/plannedEnhancement2.jpeg)
+
+3. **Improved responsiveness of GUI for different screen sizes**
+
+    We are aware that some UI components like the display card, overlap with other components when the screen
+    size is reduced. We plan to enhance the responsiveness of our application to ensure it dynamically adapts and
+    supports various display sizes seamlessly in the future.
+
+    ![Planned Enhancement 3](images/plannedEnhancement3.jpeg)
+
+4. **Maintain information of GUI for different screen sizes**
+
+    We are aware that when the screen size is reduced, some information from the contact details card may get cut off.
+    We plan to address this issue by enhancing the responsiveness of our interface in future updates, ensuring that
+    all information remains visible and accessible on smaller screens.
+
+    ![Planned Enhancement 4](images/plannedEnhancement4.jpeg)
+
+5. **Improve messages to user**
+
+    We are aware that some of our error and success messages could be more informative for our users.
+    For example, the current success message for edit and add command does not display information
+    on birthday, money owed and days available. We plan to enhance these messages to provide more
+    specific information, ensuring a better user experience.
+
+6. **Use of symbols in names**
+
+    Our application currently supports only alphanumeric characters in names and restricts the use of symbols
+    such as `/`. However, we recognize that in many cultures, names might include components like `s/o` (son of).
+    To better accommodate these conventions, we are considering expanding our character allowance to include
+    certain symbols in future enhancements.
 
 --------------------------------------------------------------------------------------------------------------------
 

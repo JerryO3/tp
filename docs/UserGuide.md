@@ -53,7 +53,7 @@ FriendFolio is your ultimate companion for simplifying student life! Whether you
         4. [`Edit` Command](#editing-a-person-edit)
         5. [`Delete` Command](#deleting-a-person-delete)
         6. [`Filter` Command](#filtering-based-on-selected-types-filter)
-        7. [`Lend` Command](#lending-an-amount--lend)
+        7. [`Lend` Command](#lending-an-amount-lend)
         8. [`Split` Command](#splitting-an-amount-owed-split)
         9. [`Sort` Command](#sorting-contacts-sort)
         10. [`Pay` Command](#generating-payment-qr-code-pay)

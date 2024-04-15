@@ -49,7 +49,7 @@ Person *--> "*" Tag
 Person *--> Remark
 Person *--> Birthday
 Person *--> MoneyOwed
-Person *--> "~* daysAvailable" Day
+Person --> "~* daysAvailable" Day
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I

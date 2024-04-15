@@ -4,11 +4,11 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-abstract class Command
-abstract class Filter
-interface Predicate
-
 left to right direction
+
+Class "{abstract}\nCommand" as Command
+Class "{abstract}\nFilter" as  Filter
+Class "<<interface>>\nPredicate" as Predicate
 
 skinparam groupInheritance 2
 

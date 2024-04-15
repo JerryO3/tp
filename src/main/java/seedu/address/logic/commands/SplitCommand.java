@@ -39,8 +39,8 @@ public class SplitCommand extends Command {
      * Returns a new SplitCommand object that takes in a list of index
      * and a MoneyOwed object.
      *
-     * @param indexListToSplit
-     * @param totalOwed
+     * @param indexListToSplit list of index of person to split with.
+     * @param totalOwed total amount to split.
      */
     public SplitCommand(List<Index> indexListToSplit, MoneyOwed totalOwed) {
         this.indexListToSplit = indexListToSplit;
@@ -50,8 +50,8 @@ public class SplitCommand extends Command {
     /**
      * Splits the total amount of a group of people.
      *
-     * @param totalAmount
-     * @param numPeople
+     * @param totalAmount total amount to split.
+     * @param numPeople number of people to split with.
      * @return the split amount
      */
     public static Float getSplitAmount(Float totalAmount, int numPeople) {
@@ -63,8 +63,8 @@ public class SplitCommand extends Command {
     /**
      * Checks if the index list is valid.
      *
-     * @param indexList
-     * @param sizeOfLastShownList
+     * @param indexList list of index of person to split with.
+     * @param sizeOfLastShownList size of last displayed list.
      * @return true if each index in index list is valid.
      */
     public static boolean hasValidIndexList(List<Index> indexList, int sizeOfLastShownList) {

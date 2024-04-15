@@ -1,0 +1,78 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant "parser:FilterCommandParser" as FilterCommandParser LOGIC_COLOR
+participant "predicate:PersonHasTagPredicate" as PersonHasTagPredicate LOGIC_COLOR
+participant "command:FilterTagCommand" as FilterTagCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("filter tag friend")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("filter tag friend")
+activate AddressBookParser
+
+create FilterCommandParser
+AddressBookParser -> FilterCommandParser
+activate FilterCommandParser
+
+FilterCommandParser --> AddressBookParser
+deactivate FilterCommandParser
+
+AddressBookParser -> FilterCommandParser : parse("filter tag friend")
+activate FilterCommandParser
+
+create PersonHasTagPredicate
+FilterCommandParser -> PersonHasTagPredicate
+activate PersonHasTagPredicate
+
+PersonHasTagPredicate --> FilterCommandParser
+deactivate PersonHasTagPredicate
+
+create FilterTagCommand
+FilterCommandParser -> FilterTagCommand
+activate FilterTagCommand
+
+FilterTagCommand --> FilterCommandParser
+deactivate FilterTagCommand
+
+FilterCommandParser --> AddressBookParser : command
+deactivate FilterCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FilterCommandParser -[hidden]-> AddressBookParser
+destroy FilterCommandParser
+
+AddressBookParser --> LogicManager : command
+deactivate AddressBookParser
+
+LogicManager -> FilterTagCommand : execute()
+activate FilterTagCommand
+
+FilterTagCommand -> Model : updateFilteredPersonList(predicate)
+activate Model
+
+Model --> FilterTagCommand
+deactivate Model
+
+create CommandResult
+FilterTagCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> FilterTagCommand
+deactivate CommandResult
+
+FilterTagCommand --> LogicManager : r
+deactivate FilterTagCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

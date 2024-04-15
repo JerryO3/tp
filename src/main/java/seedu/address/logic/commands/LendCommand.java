@@ -14,7 +14,7 @@ import seedu.address.model.person.MoneyOwed;
 import seedu.address.model.person.Person;
 
 /**
- * Lend an amount of money on top of current amount to a person identified
+ * Lends an amount of money on top of current amount to a person identified
  * using the displayed index from the address book.
  */
 public class LendCommand extends Command {
@@ -39,8 +39,8 @@ public class LendCommand extends Command {
      * Returns a new LendCommand object that takes in an Index object
      * and a MoneyOwed object.
      *
-     * @param targetIndex
-     * @param amountToLend
+     * @param targetIndex index of person to lend.
+     * @param amountToLend amount to lend to the person.
      */
     public LendCommand(Index targetIndex, MoneyOwed amountToLend) {
         requireNonNull(targetIndex);

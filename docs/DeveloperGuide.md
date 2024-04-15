@@ -988,10 +988,6 @@ testers are expected to do more *exploratory* testing.
        Expected: Person list now shows only persons whose name contains the string `john` surrounded by whitespace
        (i.e. `john tan` would be in the list but `johnny` will not be in the list if both persons exist initially).
        Status message shows the number of persons listed.
-
-    4. Test Case: `filter name %$#`<br>
-       Expected: Person list still shows all persons. Error details shown in the status message.
-       Status bar remains the same.
    
 3. Filter by `day` for persons available on multiple days while all persons are being shown
 
@@ -1023,7 +1019,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test Case: `sort birthday`<br>
        Expected: Person list now shows the filtered list of persons sorted based on upcoming birthdays, with those 
-       whose birth month and birth day are closest to today appearing first. 
+       next birthday is closest to today appearing first. 
        Status message shows that the sort command has been executed.
 
 3. Sort clear while a sorted list is shown
@@ -1045,14 +1041,13 @@ testers are expected to do more *exploratory* testing.
        Expected: PayNow QR window appears containing the QR code generated using the persons' phone number.
        Status message shows details of the person you are paying.
 
-2. Paying a person labelled by index while a filtered list is shown
+2. Paying a person who does not have a Singaporean number
 
-    1. Prerequisites: List all persons using the `list` command then filter with any valid `filter` command. 
-       Multiple persons in the list.
+    1. Prerequisites: List all persons using the `list` command. The first person in the list has an invalid 
+       phone number (not an 8-digit number starting with 8 or 9).
 
     2. Test Case: `pay 1`<br>
-       Expected: PayNow QR window appears containing the QR code generated using the persons' phone number.
-       Status message shows details of the person you are paying.
+       Expected: Error details shown in the status message. Status bar remains the same.
 
 ### Lending an amount to a person
 

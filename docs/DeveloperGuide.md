@@ -957,6 +957,99 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Filter
+
+1. Filter by `tag` while all persons are being shown
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   
+   2. Test Case: `filter tag friend`<br>
+      Expected: Person list now shows only persons with the tag `friend`. Status message shows the number of persons
+      listed.
+
+   3. Test Case: `filter tag FRIEND`<br>
+      Expected: Person list now shows only persons with the tag `friend`. Status message shows the number of persons
+      listed.
+
+   4. Test Case: `filter tag %$#`<br>
+      Expected: Person list still shows all persons. Error details shown in the status message. 
+      Status bar remains the same.
+
+2. Filter by `name` while all persons are being shown
+
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+    2. Test Case: `filter name john`<br>
+       Expected: Person list now shows only persons whose name contains the string `john` surrounded by whitespace
+       (i.e. `john tan` would be in the list but `johnny` will not be in the list if both persons exist initially). 
+       Status message shows the number of persons listed.
+
+    3. Test Case: `filter name JOHN`<br>
+       Expected: Person list now shows only persons whose name contains the string `john` surrounded by whitespace
+       (i.e. `john tan` would be in the list but `johnny` will not be in the list if both persons exist initially).
+       Status message shows the number of persons listed.
+   
+3. Filter by `day` for persons available on multiple days while all persons are being shown
+
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+    2. Test Case: `filter day monday tuesday --all`<br>
+       Expected: Person list now shows only persons who are available on `monday` and `tuesday`.
+       Status message shows the number of persons listed.
+
+    3. Test Case: `filter day today tuesday --all`<br>
+       Expected: Person list still shows all persons. Error details shown in the status message.
+       Status bar remains the same.
+
+### Sort
+
+1. Sort by `name` while all persons are being shown
+
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+    2. Test Case: `sort name`<br>
+       Expected: Person list now shows all persons in FriendFolio with names sorted in 
+       [lexicographical order](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-)
+       Status message shows that the sort command has been executed.
+   
+2. Sort by `birthday` while a filtered list is shown
+
+    1. Prerequisites: List all persons using the `list` command then filter with any valid `filter` command. 
+       Multiple persons in the list.
+
+    2. Test Case: `sort birthday`<br>
+       Expected: Person list now shows the filtered list of persons sorted based on upcoming birthdays, with those 
+       whose next birthday is closest to today appearing first. 
+       Status message shows that the sort command has been executed.
+
+3. Sort clear while a sorted list is shown
+
+    1. Prerequisites: List all persons using the `list` command then sort with any valid `sort` command.
+       Multiple persons in the list.
+
+    2. Test Case: `sort clear`<br>
+       Expected: Person list now shows all persons in FriendFolio with names sorted in order of when they were added to
+       FriendFolio. Status message shows that the sort command has been executed.
+
+### Pay
+
+1. Paying a person labelled by index while all persons are being shown
+
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+    2. Test Case: `pay 1`<br>
+       Expected: PayNow QR window appears containing the QR code generated using the persons' phone number.
+       Status message shows details of the person you are paying.
+
+2. Paying a person who does not have a Singaporean number
+
+    1. Prerequisites: List all persons using the `list` command. The first person in the list has an invalid 
+       phone number (not an 8-digit number starting with 8 or 9).
+
+    2. Test Case: `pay 1`<br>
+       Expected: PayNow QR window does not appear. Error details shown in the status message. 
+       Status bar remains the same.
+
 ### Lending an amount to a person
 
 1. Lending money to a person when all persons are being shown
